@@ -35,7 +35,7 @@ export const getUsers = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const _id = req.body._id;
+    const _id = req.params.id;
     const userExist = await User.findOne({ _id });
     if (!userExist) {
       return res.status(400).json({ message: "User not found" });
