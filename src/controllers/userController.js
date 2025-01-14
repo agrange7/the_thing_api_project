@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { SESSION_SECRET } from "..config.js";
+import { SESSION_SECRET } from "../config.js";
 
 export const createUser = async (req, res) => {
   try {

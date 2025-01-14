@@ -27,15 +27,15 @@ app.use(
   session({
     secret: SESSION_SECRET,
     resave: false,
-    saveUnintialized: false,
+    saveUninitialized: false,
   })
 );
 
 connectDB();
 
-app.use("/api/user", userRoute);
-app.use("/api/genre", genreRoute);
 app.use("/api/films", filmsRoute);
+app.use("/api/genre", genreRoute);
+app.use("/api/user", userRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running at ${PORT}`);

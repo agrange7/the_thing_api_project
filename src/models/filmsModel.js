@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const filmsSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, "Name is required"],
     minLength: 1,
     maxLength: 50,
     lowercase: true,
@@ -12,20 +12,28 @@ const filmsSchema = new mongoose.Schema({
 
   year: {
     type: Number,
-    required: true,
+    required: [true, "Year is required"],
   },
 
-  genre: { type: mongoose.Schema.Types.ObjectId, ref: "genre", required: true },
+  genre: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "genre",
+  },
 
   team: {
-    director: { type: String, required: true, minLength: 1, maxLength: 250 },
-    producers: { type: String, required: true, minLength: 1, maxLength: 250 },
-    screenWriter: {
+    director: {
       type: String,
-      required: true,
+      required: [true, "Director is required"],
       minLength: 1,
       maxLength: 250,
     },
+    screenWriter: {
+      type: String,
+      required: [true, "Screenwriter is required"],
+      minLength: 1,
+      maxLength: 250,
+    },
+    producers: { type: String, minLength: 1, maxLength: 250 },
     originalWriter: { type: String, minLength: 1, maxLength: 250 },
     casting: { type: String, minLength: 1, maxLength: 250 },
     editor: { type: String, minLength: 1, maxLength: 250 },
@@ -47,12 +55,10 @@ const filmsSchema = new mongoose.Schema({
 
   duration: {
     type: Number,
-    required: true,
   },
 
   synopsis: {
     type: String,
-    required: true,
     minLength: 10,
     maxLength: 200,
   },
@@ -68,35 +74,29 @@ const filmsSchema = new mongoose.Schema({
 
   cast: {
     type: String,
-    required: true,
   },
 
   details: {
     studios: {
       type: Number,
-      required: true,
     },
 
     language: {
       type: String,
-      required: true,
     },
 
     country: {
       type: String,
-      required: true,
     },
   },
 
   poster: {
     type: String,
-    required: true,
     match: /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))$/i,
   },
 
   trailer: {
     type: String,
-    required: true,
     match: /^(https?:\/\/.*)/,
   },
 });

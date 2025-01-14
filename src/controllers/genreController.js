@@ -1,17 +1,5 @@
 import Genre from "../models/genreModel.js";
 
-export const getGenres = async (req, res) => {
-  try {
-    const genres = await Genre.find();
-    if (genres.length === 0) {
-      return res.status(204).json({ message: "There are no genres" });
-    }
-    return res.status(200).json(genres);
-  } catch (error) {
-    res.status(500).json({ message: "Internal server error", error });
-  }
-};
-
 export const createGenre = async (req, res) => {
   try {
     const name = req.body.name;
@@ -24,6 +12,17 @@ export const createGenre = async (req, res) => {
     return res.status(201).json(response);
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
+  }
+};
+export const getGenres = async (req, res) => {
+  try {
+    const genres = await Genre.find();
+    if (genres.length === 0) {
+      return res.status(204).json({ message: "There are no genres" });
+    }
+    return res.status(200).json(genres);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
   }
 };
 

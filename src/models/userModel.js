@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    required: [true, "Username is required"],
     maxlength: 20,
     minlength: 2,
     trim: true,
@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   },
 
   password: {
-    required: true,
+    required: [true, "Password is required"],
     type: String,
     validate: {
       validator: (value) => {
@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
 
   email: {
     type: String,
-    required: true,
+    required: [true, "Email is required"],
     maxlength: 30,
     minlength: 6,
     trim: true,
@@ -37,12 +37,12 @@ const userSchema = new mongoose.Schema({
 
   dateOfBirth: {
     type: Date,
-    required: true,
+    required: [true, "Date of birth is required"],
   },
 
   favGenre: {
     type: String,
-    required: true,
+    required: [true, "Favorite genre is required"],
   },
 
   shareShortFilm: { type: String, minLength: 10, maxLength: 300 },

@@ -1,18 +1,5 @@
 import Film from "../models/filmsModel.js";
 
-export const getFilms = async (req, res) => {
-  try {
-    const films = await Film.find().populate("genre");
-    if (films.length === 0) {
-      return res.status(400).json({ message: "There are no films" });
-    }
-
-    return res.status(200).json(films);
-  } catch (error) {
-    return res.status(500).json({ message: "Internal server error", error });
-  }
-};
-
 export const createFilm = async (req, res) => {
   try {
     const filmData = new Film(req.body);
@@ -24,6 +11,19 @@ export const createFilm = async (req, res) => {
     }
     const savedFilm = await filmData.save();
     return res.status(200).json(savedFilm);
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
+export const getFilms = async (req, res) => {
+  try {
+    const films = await Film.find().populate("genre");
+    if (films.length === 0) {
+      return res.status(400).json({ message: "There are no films" });
+    }
+
+    return res.status(200).json(films);
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
   }
