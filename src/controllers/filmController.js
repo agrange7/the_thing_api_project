@@ -1,4 +1,4 @@
-import Film from "../models/filmsModel.js";
+import Film from "../models/filmModel.js";
 
 export const createFilm = async (req, res) => {
   try {
@@ -45,7 +45,7 @@ export const findFilmByName = async (req, res) => {
 
 export const findFilmById = async (req, res) => {
   try {
-    const _id = req.params._id;
+    const _id = req.params.id;
     const filmExist = await Film.findOne({ _id });
     if (!filmExist) {
       return res.status(400).json({ message: `Film ${_id} doesn't exist` });

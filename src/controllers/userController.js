@@ -2,6 +2,7 @@ import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { SESSION_SECRET } from "../config.js";
+import { hashPassword } from "../utils/hashPassword.js";
 
 export const createUser = async (req, res) => {
   try {
@@ -14,7 +15,9 @@ export const createUser = async (req, res) => {
         .json({ message: `User with email ${email} already exists` });
     }
 
+    await hashPassword(userData);
     await userData.save();
+
     res.status(201).json({ message: "User created", userData });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
@@ -40,28 +43,35 @@ export const updateUser = async (req, res) => {
     if (!userExist) {
       return res.status(400).json({ message: "User not found" });
     }
+
+    if (req.body.password) {
+      await hashPassword(req.body);
+    }
+
     const updatedUser = await User.findByIdAndUpdate({ _id }, req.body, {
       new: true,
     });
-    return res.status(201).json(updatedUser);
+    return res.status(200).json(updatedUser);
   } catch (error) {
-    return res.status(500).json({ error: "internal server error", error });
+    return res.status(500).json({ error: "Internal server error", error });
   }
 };
 
 export const deleteUser = async (req, res) => {
   try {
     const _id = req.params.id;
-    console.log("soy pepe " + _id);
     const userExist = await User.findOne({ _id });
     if (!userExist) {
-      console.log("soy el usuario pepito " + userExist);
       return res.status(404).json({ message: "User not found" });
     }
+
+    await hashPassword(userExist);
     await User.findOneAndDelete({ _id });
-    return res
-      .status(200)
-      .json({ message: "User deleted succesfully", userExist });
+
+    return res.status(200).json({
+      message: "User deleted successfully",
+      user: userExist,
+    });
   } catch (error) {
     return res.status(500).json({ error: "Internal server error", error });
   }
@@ -76,7 +86,6 @@ export const validate = async (req, res) => {
     if (!userFound) {
       return res.status(400).json({ message: "User or password incorrect" });
     }
-    console.log({ userFound });
 
     if (bcrypt.compareSync(req.body.password, userFound.password)) {
       const payload = {
@@ -87,7 +96,7 @@ export const validate = async (req, res) => {
       const token = jwt.sign(payload, SESSION_SECRET, {
         expiresIn: "1h",
       });
-      console.log(token);
+
       return res.status(200).json({ message: "Logged in", token });
     } else {
       return res.status(400).json({ message: "User or password is incorrect" });

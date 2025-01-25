@@ -26,6 +26,19 @@ export const getGenres = async (req, res) => {
   }
 };
 
+export const findGenreById = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const genreExist = await Genre.findOne({ _id });
+    if (!genreExist) {
+      return res.status(400).json({ message: `Genre ${_id} doesn't exist` });
+    }
+    return res.status(200).json({ genreExist });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
 export const updateGenre = async (req, res) => {
   try {
     const _id = req.params.id;

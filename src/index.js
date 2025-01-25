@@ -3,7 +3,7 @@ import { PORT, SESSION_SECRET } from "./config.js";
 import { connectDB } from "./db.js";
 import userRoute from "./routes/userRoute.js";
 import genreRoute from "./routes/genreRoute.js";
-import filmsRoute from "./routes/filmsRoute.js";
+import filmRoute from "./routes/filmRoute.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import session from "express-session";
@@ -33,7 +33,7 @@ app.use(
 
 connectDB();
 
-app.use("/api/films", filmsRoute);
+app.use("/api/film", filmRoute);
 app.use("/api/genre", genreRoute);
 app.use("/api/user", userRoute);
 
