@@ -11,7 +11,7 @@ import { verifyTokenMiddleware } from "../middlewares/verifyTokenMiddleware.js";
 
 const filmRoute = Router();
 
-filmRoute.get("/get", verifyTokenMiddleware, getFilms);
+filmRoute.get("/get", getFilms);
 filmRoute.get("/get-by-id/:id", verifyTokenMiddleware, findFilmById);
 filmRoute.post("/get-by-name", verifyTokenMiddleware, findFilmByName);
 filmRoute.post("/create", verifyTokenMiddleware, createFilm);

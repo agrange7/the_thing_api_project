@@ -11,7 +11,7 @@ import { verifyTokenMiddleware } from "../middlewares/verifyTokenMiddleware.js";
 const genreRoute = Router();
 
 genreRoute.post("/create", verifyTokenMiddleware, createGenre);
-genreRoute.get("/get", verifyTokenMiddleware, getGenres);
+genreRoute.get("/get", getGenres);
 genreRoute.get("/get-by-id/:id", verifyTokenMiddleware, findGenreById);
 genreRoute.put("/update/:id", verifyTokenMiddleware, updateGenre);
 genreRoute.delete("/delete/:id", verifyTokenMiddleware, deleteGenre);
